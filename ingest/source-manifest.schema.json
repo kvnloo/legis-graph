@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kvnloo/legis-graph/blob/master/ingest/source-manifest.schema.json",
+  "title": "LegisGraph source artifact receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "receipt_id",
+    "source_family",
+    "source_url",
+    "fetched_at",
+    "sha256",
+    "adapter",
+    "adapter_version"
+  ],
+  "properties": {
+    "receipt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_family": {
+      "type": "string",
+      "enum": [
+        "congress-legislators",
+        "congress-gov",
+        "govinfo",
+        "senate-rollcall"
+      ]
+    },
+    "source_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "fetched_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "congress": {
+      "type": ["integer", "null"],
+      "minimum": 1
+    },
+    "session": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "maximum": 2
+    },
+    "adapter": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adapter_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_path": {
+      "type": ["string", "null"]
+    },
+    "retrieval_metadata": {
+      "type": "object"
+    }
+  }
+}
