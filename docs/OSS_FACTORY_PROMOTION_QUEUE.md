@@ -9,14 +9,18 @@ Tracked via registry PR https://github.com/kvnloo/oss-factory/pull/191 (provisio
 - Origin: https://github.com/legis-graph/legis-graph
 - Coordination fork: https://github.com/kvnloo/legis-graph
 - Last evidence audit: 2026-10-17
-- State: **CHECK / LOCAL_ONLY** (not origin-action authorization)
+- State: **CHECK / LOCAL_ONLY** for the full source migration; **READY_FOR_HUMAN_REVIEW** for the separate loader fix (not origin-action authorization)
 
 ## Existing upstream review / source work
 
 - Retired fork draft: https://github.com/kvnloo/legis-graph/pull/1 (`closed`, not merged).
 - Planning branch: `civic/official-source-migration` @ `423f8419b360af761b2d79ad8206929fccbdd882`.
 - Existing `sync.sh` relies on retired GovTrack rsync; replacement candidates: Congress.gov, GovInfo, Senate roll-call XML and congress-legislators.
-- Documentation/schema migration plan only; **no functional API adapter, fixture parity, or importer tests**.
+- Official-source migration is **documentation/schema only**; no API adapter, fixture parity, or importer tests yet.
+- **Independent tested leaf — READY_FOR_HUMAN_REVIEW:** `civic/legislators-safe-yaml-20261017` @ `93efb13780ec6ae6fbbd5bdcf9186099d17b3b61` fixes `yaml.load(f)` incompatibility with unpinned PyYAML 6+ by using `yaml.safe_load(f)`.
+- **RED:** PyYAML 6.0.3 raises `TypeError` for `yaml.load(f)` without `Loader`.
+- **GREEN:** 2 native stdlib `unittest` subprocess checks PASSED on Python 3.13.5 + PyYAML 6.0.3, checking current/historical CSV and rejection of Python-specific YAML tags. Exact tested file Git blob IDs match remote: parser `652e5fb889e228ab060e434b84dda00bef162d6b`, test `c12059588a20d9a51ece3a91e436317f7a6f7080`.
+- Test command: `python -m unittest discover -s tests -v`. No external API or Neo4j required. Origin repo last pushed in 2020; request maintainer review before proposing publication.
 - Next: map maintained official sources onto legacy bill/vote/legislator parser contracts; implement smallest fixture-backed adapter; keep origin publication blocked until reproducible evidence.
 
 ## Release gates
