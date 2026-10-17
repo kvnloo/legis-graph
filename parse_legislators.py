@@ -34,7 +34,7 @@ def load_legistors(kind):
 
     inpath = 'data/congress-legislators/legislators-{}.yaml'.format(kind)
     with open(inpath, 'r') as f:
-        current = yaml.load(f)
+        current = yaml.safe_load(f)
 
     outpath = 'outputs/legislators-{}.csv'.format(kind)
     with open(outpath, 'w') as f:
